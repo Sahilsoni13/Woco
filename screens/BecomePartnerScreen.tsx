@@ -237,7 +237,7 @@ export function BecomePartnerScreen() {
                     clearError('hotelName');
                   }}
                   placeholder="e.g. The Grand Hyatt Mumbai"
-                  className="rounded-xl"
+                  className="rounded-xl text-sm"
                 />
                 <FieldError message={errors.hotelName} />
               </View>
@@ -253,7 +253,7 @@ export function BecomePartnerScreen() {
                   placeholder="Describe your property — its character, setting, and what makes it special…"
                   multiline
                   numberOfLines={4}
-                  className="rounded-xl py-2.5"
+                  className="rounded-xl py-2.5 text-sm"
                   style={{ height: 110, textAlignVertical: 'top' }}
                 />
                 <FieldError message={errors.description} />
@@ -310,7 +310,7 @@ export function BecomePartnerScreen() {
                     clearError('address');
                   }}
                   placeholder="e.g. 1234 Marine Drive, Nariman Point"
-                  className="rounded-xl"
+                  className="rounded-xl text-sm"
                 />
                 <FieldError message={errors.address} />
               </View>
@@ -325,7 +325,7 @@ export function BecomePartnerScreen() {
                       clearError('cityName');
                     }}
                     placeholder="e.g. Mumbai"
-                    className="rounded-xl"
+                    className="rounded-xl text-sm"
                   />
                   <FieldError message={errors.cityName} />
                 </View>
@@ -436,7 +436,7 @@ export function BecomePartnerScreen() {
                     clearError('contactName');
                   }}
                   placeholder="e.g. Priya Sharma"
-                  className="rounded-xl"
+                  className="rounded-xl text-sm"
                 />
                 <FieldError message={errors.contactName} />
               </View>
@@ -452,7 +452,7 @@ export function BecomePartnerScreen() {
                   placeholder="e.g. partnerships@yourhotel.com"
                   keyboardType="email-address"
                   autoCapitalize="none"
-                  className="rounded-xl"
+                  className="rounded-xl text-sm"
                 />
                 <FieldError message={errors.email} />
               </View>
@@ -491,7 +491,7 @@ export function BecomePartnerScreen() {
                   }}
                   placeholder="e.g. 22AAAAA0000A1Z5"
                   autoCapitalize="characters"
-                  className="rounded-xl"
+                  className="rounded-xl text-sm"
                 />
                 <FieldError message={errors.gstNumber} />
                 <Text className="font-montserrat text-muted-foreground text-[11px]">

@@ -19,7 +19,7 @@ export function LocationPanel({ onSelect }: LocationPanelProps) {
 
   return (
     <View className="gap-5">
-      <View className="border-border  flex-row items-center gap-2 rounded-full border px-4 py-3">
+      <View className="border-border  flex-row items-center gap-2 rounded-full border px-4">
         <Icon as={Search} size={16} className="text-muted-foreground" />
         <Input
           value={query}
