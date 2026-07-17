@@ -177,7 +177,7 @@ export function JoinScreen() {
                   <Text className="font-montserrat text-muted-foreground text-[11px] font-semibold uppercase tracking-[1px]">
                     Email Address
                   </Text>
-                  <Input value={MOCK_INVITATION.email} editable={false} className="rounded-xl" />
+                  <Input value={MOCK_INVITATION.email} editable={false} className="rounded-xl text-sm" />
                 </View>
 
                 <View className="flex-row gap-3">
@@ -185,13 +185,13 @@ export function JoinScreen() {
                     <Text className="font-montserrat text-muted-foreground text-[11px] font-semibold uppercase tracking-[1px]">
                       First Name
                     </Text>
-                    <Input value={firstName} onChangeText={setFirstName} placeholder="Raj" className="rounded-xl" />
+                    <Input value={firstName} onChangeText={setFirstName} placeholder="Raj" className="rounded-xl text-sm" />
                   </View>
                   <View className="flex-1 gap-1.5">
                     <Text className="font-montserrat text-muted-foreground text-[11px] font-semibold uppercase tracking-[1px]">
                       Last Name
                     </Text>
-                    <Input value={lastName} onChangeText={setLastName} placeholder="Mehta" className="rounded-xl" />
+                    <Input value={lastName} onChangeText={setLastName} placeholder="Mehta" className="rounded-xl text-sm" />
                   </View>
                 </View>
 
@@ -216,7 +216,7 @@ export function JoinScreen() {
                       keyboardType="number-pad"
                       maxLength={10}
                       editable={!otpVerified}
-                      className="flex-1 rounded-xl"
+                      className="flex-1 rounded-xl text-sm"
                     />
                     {!otpVerified ? (
                       <Button size="sm" className="rounded-xl" onPress={handleSendOtp} disabled={sendingOtp}>
@@ -251,7 +251,7 @@ export function JoinScreen() {
                         placeholder="Enter 6-digit OTP"
                         keyboardType="number-pad"
                         maxLength={6}
-                        className="flex-1 rounded-xl"
+                        className="flex-1 rounded-xl text-sm"
                       />
                       <Button
                         variant="outline"
@@ -283,7 +283,7 @@ export function JoinScreen() {
                       }}
                       placeholder="Min. 8 characters"
                       secureTextEntry={!showPassword}
-                      className="flex-1 rounded-xl"
+                      className="flex-1 rounded-xl text-sm"
                     />
                     <Pressable onPress={() => setShowPassword((v) => !v)} hitSlop={8} className="absolute right-3">
                       <Icon as={showPassword ? EyeOff : Eye} size={16} className="text-muted-foreground" />
@@ -303,7 +303,7 @@ export function JoinScreen() {
                       onChangeText={setConfirmPassword}
                       placeholder="Re-enter password"
                       secureTextEntry={!showConfirmPassword}
-                      className="flex-1 rounded-xl"
+                      className="flex-1 rounded-xl text-sm"
                     />
                     <View className="absolute right-3 flex-row items-center gap-2">
                       {confirmPassword ? (

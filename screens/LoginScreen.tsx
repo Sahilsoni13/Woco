@@ -231,7 +231,7 @@ export function LoginScreen() {
                   placeholder="raj@example.com"
                   keyboardType="email-address"
                   autoCapitalize="none"
-                  className="rounded-xl"
+                  className="rounded-xl text-sm"
                 />
               </View>
 
@@ -255,7 +255,7 @@ export function LoginScreen() {
                     }}
                     placeholder="••••••••"
                     secureTextEntry={!showPassword}
-                    className="flex-1 rounded-xl"
+                    className="flex-1 rounded-xl text-sm"
                   />
                   <Pressable
                     onPress={() => setShowPassword((v) => !v)}
@@ -360,7 +360,7 @@ export function LoginScreen() {
                   placeholder="raj@example.com"
                   keyboardType="email-address"
                   autoCapitalize="none"
-                  className="rounded-xl"
+                  className="rounded-xl text-sm"
                 />
                 {forgotError ? (
                   <View className="mt-1 flex-row items-center gap-2 rounded-lg bg-red-50 px-3 py-2.5">
@@ -490,7 +490,7 @@ export function LoginScreen() {
                       onChangeText={setNewPassword}
                       placeholder="••••••••••••••••"
                       secureTextEntry={!showNewPassword}
-                      className="flex-1 rounded-xl"
+                      className="flex-1 rounded-xl text-sm"
                     />
                     <Pressable
                       onPress={() => setShowNewPassword((v) => !v)}
@@ -516,7 +516,7 @@ export function LoginScreen() {
                       onChangeText={setNewConfirmPassword}
                       placeholder="••••••••••••••••"
                       secureTextEntry={!showConfirmPassword}
-                      className="flex-1 rounded-xl"
+                      className="flex-1 rounded-xl text-sm"
                     />
                     <Pressable
                       onPress={() => setShowConfirmPassword((v) => !v)}
