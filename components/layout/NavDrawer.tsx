@@ -1,5 +1,16 @@
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { Dialog, DialogClose, DialogOverlay, DialogPortal, DialogTrigger } from '@/components/ui/dialog';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
+import {
+  Dialog,
+  DialogClose,
+  DialogOverlay,
+  DialogPortal,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import * as DialogPrimitive from '@rn-primitives/dialog';
@@ -53,24 +64,32 @@ function DrawerContent() {
         style={{ paddingTop: insets.top + 16 }}>
         <View className="flex-row items-center justify-between">
           <Logo variant="light" />
-          <DialogClose hitSlop={12} className="h-8 w-8 items-center justify-center rounded-full bg-white/10">
+          <DialogClose
+            hitSlop={12}
+            className="h-8 w-8 items-center justify-center rounded-full bg-white/10">
             <Icon as={X} size={16} className="text-white" />
           </DialogClose>
         </View>
 
         <Text className="font-montserrat text-[13px] leading-5 text-white/60">
-          An invitation-only travel society for those who seek experiences beyond the reach of ordinary
-          currency.
+          An invitation-only travel society for those who seek experiences beyond the reach of
+          ordinary currency.
         </Text>
 
         <View className="flex-row gap-3">
-          <Pressable hitSlop={6} className="h-9 w-9 items-center justify-center rounded-full bg-white/10">
+          <Pressable
+            hitSlop={6}
+            className="h-9 w-9 items-center justify-center rounded-full bg-white/10">
             <InstagramIcon size={15} color="#ffffff" />
           </Pressable>
-          <Pressable hitSlop={6} className="h-9 w-9 items-center justify-center rounded-full bg-white/10">
+          <Pressable
+            hitSlop={6}
+            className="h-9 w-9 items-center justify-center rounded-full bg-white/10">
             <XSocialIcon size={15} color="#ffffff" />
           </Pressable>
-          <Pressable hitSlop={6} className="h-9 w-9 items-center justify-center rounded-full bg-white/10">
+          <Pressable
+            hitSlop={6}
+            className="h-9 w-9 items-center justify-center rounded-full bg-white/10">
             <LinkedinIcon size={15} color="#ffffff" />
           </Pressable>
           <Pressable
@@ -82,18 +101,29 @@ function DrawerContent() {
         </View>
       </View>
 
-      <ScrollView className="flex-1" contentContainerClassName="pb-10" showsVerticalScrollIndicator={false}>
+      <ScrollView
+        className="flex-1"
+        contentContainerClassName="pb-10"
+        showsVerticalScrollIndicator={false}>
         <View className="gap-3 px-6 pt-6">
           {DRAWER_NAV_SECTIONS.map((section) => (
-            <View key={section.title} className="overflow-hidden rounded-2xl border border-white/10 bg-white/[0.05]">
+            <View
+              key={section.title}
+              className="overflow-hidden rounded-2xl border border-white/10 bg-white/[0.05]">
               <Accordion type="multiple">
                 <AccordionItem value={section.title} className="border-b-0">
                   <AccordionTrigger className="px-4 py-3.5">
                     <View className="flex-row items-center gap-3">
                       <View className="h-9 w-9 items-center justify-center rounded-full bg-white/10">
-                        <Icon as={SECTION_ICONS[section.title] ?? Compass} size={16} className="text-ltx-gold" />
+                        <Icon
+                          as={SECTION_ICONS[section.title] ?? Compass}
+                          size={16}
+                          className="text-ltx-gold"
+                        />
                       </View>
-                      <Text className="font-montserrat-medium text-[14px] text-white">{section.title}</Text>
+                      <Text className="font-montserrat-medium text-[14px] text-white">
+                        {section.title}
+                      </Text>
                     </View>
                   </AccordionTrigger>
                   <AccordionContent className="px-4 pb-1 pt-0">
@@ -101,7 +131,9 @@ function DrawerContent() {
                       {section.links.map((link) => (
                         <Link key={link.label} href={link.href as Href} asChild onPress={close}>
                           <Pressable className="flex-row items-center justify-between rounded-xl py-3 pl-[52px] pr-2 active:bg-white/10">
-                            <Text className="font-montserrat text-[13px] text-white/60">{link.label}</Text>
+                            <Text className="font-montserrat text-[13px] text-white/60">
+                              {link.label}
+                            </Text>
                             <Icon as={ChevronRight} size={14} className="text-white/25" />
                           </Pressable>
                         </Link>
@@ -130,7 +162,7 @@ function DrawerContent() {
               // navigates on to /join.
               router.push('/login?step=signup' as Href);
             }}>
-            <Text className="font-montserrat text-primary text-[13px] font-semibold uppercase tracking-[1px]">
+            <Text className="font-montserrat text-[13px] font-semibold uppercase tracking-[1px] text-primary">
               Join Now
             </Text>
           </Pressable>
@@ -146,7 +178,7 @@ function DrawerContent() {
           </Pressable>
         </View>
 
-        <Text className="font-montserrat mt-8 text-center text-[11px] text-white/40">
+        <Text className="mt-8 text-center font-montserrat text-[11px] text-white/40">
           © {new Date().getFullYear()} WOCO Verdant Estates
         </Text>
       </ScrollView>

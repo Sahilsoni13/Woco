@@ -8,6 +8,7 @@ import { cn } from '@/lib/utils';
 import { Search } from 'lucide-react-native';
 import * as React from 'react';
 import { Pressable, ScrollView, View } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export function BookingScreen() {
@@ -63,13 +64,17 @@ export function BookingScreen() {
         </View>
       </View>
 
-      <ScrollView contentContainerClassName="gap-4 px-5 pb-8" showsVerticalScrollIndicator={false}>
+      <KeyboardAwareScrollView
+        contentContainerClassName="gap-4 px-5 pb-8"
+        keyboardShouldPersistTaps="handled"
+        // bottomOffset={20}
+        showsVerticalScrollIndicator={false}>
         {filtered.length === 0 ? (
           <BookingsEmptyState tabLabel={tab.label} isSearching={!!query.trim()} />
         ) : (
           filtered.map((booking) => <BookingCard key={booking.id} booking={booking} />)
         )}
-      </ScrollView>
+      </KeyboardAwareScrollView>
     </SafeAreaView>
   );
 }

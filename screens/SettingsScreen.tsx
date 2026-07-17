@@ -4,7 +4,8 @@ import { SecuritySection } from '@/components/settings/SecuritySection';
 import { SettingsToast } from '@/components/settings/SettingsToast';
 import { Text } from '@/components/ui/text';
 import * as React from 'react';
-import { ScrollView, View } from 'react-native';
+import { View } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export function SettingsScreen() {
@@ -23,14 +24,18 @@ export function SettingsScreen() {
       </View>
 
       <View className="flex-1">
-        <ScrollView contentContainerClassName="gap-5 px-5 py-6" showsVerticalScrollIndicator={false}>
+        <KeyboardAwareScrollView
+          contentContainerClassName="gap-5 px-5 py-6"
+          keyboardShouldPersistTaps="handled"
+          bottomOffset={20}
+          showsVerticalScrollIndicator={false}>
           <NotificationsSection
             prefs={prefs}
             onChange={setPrefs}
             onSaved={() => showToast('Notification preferences saved.')}
           />
           <SecuritySection onSaved={() => showToast('Your password has been changed successfully.')} />
-        </ScrollView>
+        </KeyboardAwareScrollView>
 
         {toast ? <SettingsToast message={toast} /> : null}
       </View>

@@ -17,7 +17,7 @@ import { StatusBar } from 'expo-status-bar';
 import { useColorScheme } from 'nativewind';
 import * as React from 'react';
 import { View } from 'react-native';
-
+import { KeyboardProvider } from 'react-native-keyboard-controller';
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
@@ -50,31 +50,33 @@ export default function RootLayout() {
 
   return (
     <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-      <ThemeProvider value={NAV_THEME[colorScheme ?? 'light']}>
-        {/* WocoApp mirrors LTX web's single light brand palette (see lib/theme.ts) —
+      <KeyboardProvider>
+        <ThemeProvider value={NAV_THEME[colorScheme ?? 'light']}>
+          {/* WocoApp mirrors LTX web's single light brand palette (see lib/theme.ts) —
             the background never actually goes dark, so status bar content stays dark too. */}
-        <StatusBar style="dark" />
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="about" options={{ headerShown: false }} />
-          <Stack.Screen name="contact" options={{ headerShown: false }} />
-          <Stack.Screen name="faq" options={{ headerShown: false }} />
-          <Stack.Screen name="terms" options={{ headerShown: false }} />
-          <Stack.Screen name="privacy" options={{ headerShown: false }} />
-          <Stack.Screen name="cookies" options={{ headerShown: false }} />
-          <Stack.Screen name="become-a-partner" options={{ headerShown: false }} />
-          <Stack.Screen name="hotels" options={{ headerShown: false }} />
-          <Stack.Screen name="hotels/[id]" options={{ headerShown: false }} />
-          <Stack.Screen name="booking/[id]" options={{ headerShown: false }} />
-          <Stack.Screen name="family" options={{ headerShown: false }} />
-          <Stack.Screen name="points" options={{ headerShown: false }} />
-          <Stack.Screen name="support" options={{ headerShown: false }} />
-          <Stack.Screen name="support/[id]" options={{ headerShown: false }} />
-          <Stack.Screen name="login" options={{ headerShown: false }} />
-          <Stack.Screen name="join" options={{ headerShown: false }} />
-        </Stack>
-        <PortalHost />
-      </ThemeProvider>
+          <StatusBar style="dark" />
+          <Stack>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="about" options={{ headerShown: false }} />
+            <Stack.Screen name="contact" options={{ headerShown: false }} />
+            <Stack.Screen name="faq" options={{ headerShown: false }} />
+            <Stack.Screen name="terms" options={{ headerShown: false }} />
+            <Stack.Screen name="privacy" options={{ headerShown: false }} />
+            <Stack.Screen name="cookies" options={{ headerShown: false }} />
+            <Stack.Screen name="become-a-partner" options={{ headerShown: false }} />
+            <Stack.Screen name="hotels" options={{ headerShown: false }} />
+            <Stack.Screen name="hotels/[id]" options={{ headerShown: false }} />
+            <Stack.Screen name="booking/[id]" options={{ headerShown: false }} />
+            <Stack.Screen name="family" options={{ headerShown: false }} />
+            <Stack.Screen name="points" options={{ headerShown: false }} />
+            <Stack.Screen name="support" options={{ headerShown: false }} />
+            <Stack.Screen name="support/[id]" options={{ headerShown: false }} />
+            <Stack.Screen name="login" options={{ headerShown: false }} />
+            <Stack.Screen name="join" options={{ headerShown: false }} />
+          </Stack>
+          <PortalHost />
+        </ThemeProvider>
+      </KeyboardProvider>
     </View>
   );
 }

@@ -4,7 +4,8 @@ import { Input } from '@/components/ui/input';
 import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/utils';
 import * as React from 'react';
-import { Pressable, ScrollView, View, useWindowDimensions } from 'react-native';
+import { Pressable, View, useWindowDimensions } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 import { DateOfBirthInputs, formatDobParts, parseDobParts } from './DateOfBirthInputs';
 import { RELATIONS, type FamilyMember, type FamilyRelation } from './mock-data';
 
@@ -76,9 +77,11 @@ export function EditFamilyMemberDialog({ member, onOpenChange, onSave }: EditFam
           <DialogTitle>Edit Family Member</DialogTitle>
         </DialogHeader>
 
-        <ScrollView
+        <KeyboardAwareScrollView
           style={{ maxHeight: windowHeight * 0.5 }}
           contentContainerClassName="gap-4"
+          keyboardShouldPersistTaps="handled"
+          bottomOffset={20}
           showsVerticalScrollIndicator={false}>
           <View className="flex-row gap-3">
             <View className="flex-1 gap-1.5">
@@ -154,7 +157,7 @@ export function EditFamilyMemberDialog({ member, onOpenChange, onSave }: EditFam
           </View>
 
           {error ? <Text className="font-montserrat text-[12px] text-red-500">{error}</Text> : null}
-        </ScrollView>
+        </KeyboardAwareScrollView>
 
         <View className="flex-row gap-3">
           <Button variant="outline" size="lg" className="flex-1 rounded-full" onPress={() => onOpenChange(false)}>

@@ -3,7 +3,8 @@ import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import * as DialogPrimitive from '@rn-primitives/dialog';
 import { X } from 'lucide-react-native';
-import { ScrollView, View, useWindowDimensions } from 'react-native';
+import { View, useWindowDimensions } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 type FilterSheetProps = {
@@ -43,9 +44,13 @@ export function FilterSheet({ title, open, onOpenChange, children }: FilterSheet
                 <Icon as={X} size={20} className="text-foreground" />
               </DialogClose>
             </View>
-            <ScrollView contentContainerClassName="px-5 pb-6" showsVerticalScrollIndicator={false}>
+            <KeyboardAwareScrollView
+              contentContainerClassName="px-5 pb-6"
+              keyboardShouldPersistTaps="handled"
+              bottomOffset={20}
+              showsVerticalScrollIndicator={false}>
               {children}
-            </ScrollView>
+            </KeyboardAwareScrollView>
           </DialogPrimitive.Content>
         </DialogOverlay>
       </DialogPortal>

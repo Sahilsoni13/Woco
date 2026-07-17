@@ -16,7 +16,8 @@ import {
   ShieldCheck,
 } from 'lucide-react-native';
 import * as React from 'react';
-import { KeyboardAvoidingView, Platform, Pressable, ScrollView, View } from 'react-native';
+import { Pressable, View } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 // Fixed +91, no country picker — same call already made for
@@ -124,7 +125,7 @@ export function JoinScreen() {
     <View className="bg-primary flex-1">
       {/* Same reasoning as LoginScreen: app-wide StatusBar defaults to
           "dark", this is the one other screen with a dark top panel. */}
-      <StatusBar style="light" />
+      {/* <StatusBar style="light" /> */}
       <View style={{ paddingTop: insets.top + 24 }} className="items-center gap-2 px-6 pb-8">
         <View className="flex-row items-center gap-2 rounded-2xl border border-white/10 bg-white/[0.06] px-5 py-3">
           <Text className="font-montserrat text-[16px] font-bold text-white">WOCO</Text>
@@ -133,8 +134,7 @@ export function JoinScreen() {
         <Text className="font-montserrat text-[13px] text-white/40">Exclusive Members Only</Text>
       </View>
 
-      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} className="flex-1">
-        <View className="bg-background flex-1 rounded-t-[32px]">
+      <View className="bg-background flex-1 rounded-t-[32px]">
           {step === 'validating' ? (
             <View className="flex-1 items-center justify-center gap-3">
               <Icon as={LoaderCircle} size={26} className="text-ltx-gold" />
@@ -143,9 +143,15 @@ export function JoinScreen() {
           ) : null}
 
           {step === 'form' ? (
-            <ScrollView
-              contentContainerClassName="px-6 pb-10 pt-8"
+            <KeyboardAwareScrollView
+              contentContainerStyle={{
+                flexGrow: 1,
+                paddingHorizontal: 24,
+                paddingTop: 32,
+                paddingBottom: 40,
+              }}
               keyboardShouldPersistTaps="handled"
+              bottomOffset={20}
               showsVerticalScrollIndicator={false}>
               <Text className="font-noto-serif text-foreground text-[20px]">Complete your Membership</Text>
               <Text className="font-montserrat text-muted-foreground mt-1 text-[13px]">
@@ -341,7 +347,7 @@ export function JoinScreen() {
                   Already a member? <Text className="text-foreground font-semibold">Sign In</Text>
                 </Text>
               </Pressable>
-            </ScrollView>
+            </KeyboardAwareScrollView>
           ) : null}
 
           {step === 'success' ? (
@@ -355,8 +361,7 @@ export function JoinScreen() {
               </Text>
             </View>
           ) : null}
-        </View>
-      </KeyboardAvoidingView>
+      </View>
     </View>
   );
 }
