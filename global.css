@@ -1,0 +1,86 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* LTX web (src/app/globals.css) ships a single brand palette with no
+     separate dark-mode values, so both root and .dark:root mirror it here
+     to keep WocoApp's color theme identical to web in either mode. */
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 10.2%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 10.2%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 10.2%;
+    --primary: 0 0% 10.2%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 45 16.7% 95.3%;
+    --secondary-foreground: 0 0% 10.2%;
+    --muted: 45 16.7% 95.3%;
+    --muted-foreground: 220 8.9% 46.1%;
+    --accent: 45 16.7% 95.3%;
+    --accent-foreground: 0 0% 10.2%;
+    --destructive: 357.2 100% 45.3%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 33.3 20% 91.2%;
+    --input: 45.5 29.3% 80.6%;
+    --ring: 0 0% 10.2%;
+    --radius: 0.625rem;
+    --chart-1: 0 0% 83.1%;
+    --chart-2: 0 0% 45.2%;
+    --chart-3: 0 0% 32.2%;
+    --chart-4: 0 0% 25%;
+    --chart-5: 0 0% 14.9%;
+
+    /* LTX brand palette (src/app/globals.css @theme inline color-ltx-*) */
+    --ltx-green: 0 0% 10.2%;
+    --ltx-green-light: 146.5 46.4% 22%;
+    --ltx-text: 47 19.7% 22.9%;
+    --ltx-muted: 45 8.5% 54.1%;
+    --ltx-cream: 0 0% 100%;
+    --ltx-cream-dark: 45 16.7% 95.3%;
+    --ltx-border: 33.3 20% 91.2%;
+    --ltx-gold: 36.8 40.4% 61.2%;
+    --ltx-accent: 27.4 61.6% 56.1%;
+    --ltx-warm-accent: 29.4 66.8% 53.9%;
+  }
+
+  .dark:root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 10.2%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 10.2%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 10.2%;
+    --primary: 0 0% 10.2%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 45 16.7% 95.3%;
+    --secondary-foreground: 0 0% 10.2%;
+    --muted: 45 16.7% 95.3%;
+    --muted-foreground: 220 8.9% 46.1%;
+    --accent: 45 16.7% 95.3%;
+    --accent-foreground: 0 0% 10.2%;
+    --destructive: 357.2 100% 45.3%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 33.3 20% 91.2%;
+    --input: 45.5 29.3% 80.6%;
+    --ring: 0 0% 10.2%;
+    --chart-1: 0 0% 83.1%;
+    --chart-2: 0 0% 45.2%;
+    --chart-3: 0 0% 32.2%;
+    --chart-4: 0 0% 25%;
+    --chart-5: 0 0% 14.9%;
+
+    --ltx-green: 0 0% 10.2%;
+    --ltx-green-light: 146.5 46.4% 22%;
+    --ltx-text: 47 19.7% 22.9%;
+    --ltx-muted: 45 8.5% 54.1%;
+    --ltx-cream: 0 0% 100%;
+    --ltx-cream-dark: 45 16.7% 95.3%;
+    --ltx-border: 33.3 20% 91.2%;
+    --ltx-gold: 36.8 40.4% 61.2%;
+    --ltx-accent: 27.4 61.6% 56.1%;
+    --ltx-warm-accent: 29.4 66.8% 53.9%;
+  }
+}
