@@ -13,14 +13,17 @@ import {
 } from '@/components/ui/dialog';
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
+import { cn } from '@/lib/utils';
 import * as DialogPrimitive from '@rn-primitives/dialog';
 import { Link, router, type Href } from 'expo-router';
 import { Building2, ChevronRight, Compass, Crown, Mail, Menu, Scale, X } from 'lucide-react-native';
-import { Linking, Pressable, ScrollView, View, useWindowDimensions } from 'react-native';
+import { Linking, Platform, Pressable, ScrollView, View } from 'react-native';
+import { ReduceMotion, SlideInRight, SlideOutRight } from 'react-native-reanimated';
 import { Logo } from './Logo';
 import { DRAWER_NAV_SECTIONS } from './nav-links';
 import { InstagramIcon, LinkedinIcon, XSocialIcon } from './SocialIcons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { StatusBar } from 'expo-status-bar';
 
 // Matches LTX web's real contact address (src/components/landing/nav-drawer.tsx);
 // the other social links are `#` placeholders on web too, so they stay inert here.
@@ -37,28 +40,27 @@ function DrawerContent() {
   const { onOpenChange } = DialogPrimitive.useRootContext();
   const close = () => onOpenChange(false);
   const insets = useSafeAreaInsets();
-  const { height: windowHeight } = useWindowDimensions();
-
   return (
     <DialogPrimitive.Content
-      // `h-full` needs a parent with a resolved height to size against — see
-      // the comment in components/search/FilterSheet.tsx for why that's not
-      // reliably true here on native, and why this uses a pixel height instead.
-      //
-      // Whole drawer is dark (`bg-primary`), not just the top panel — reuses
-      // the app's existing "dark card" convention (see ConciergeCard.tsx:
-      // bg-primary surface, bg-white/10 chips, text-white/50 secondary text,
-      // bg-ltx-gold CTA with text-primary label) rather than inventing new
-      // dark-mode colors, since this app has no separate dark palette
-      // (lib/theme.ts mirrors the same tokens for light+dark).
-      className="ml-auto w-[86%] max-w-[400px] overflow-hidden border-l border-white/10 bg-primary"
-      style={{ height: windowHeight }}>
-      {/* A fixed sibling above the ScrollView, not a scrollable child of it,
-          so it stays pinned while only the nav list/buttons below it
-          scroll. Extends behind the status bar for an immersive feel. A
-          bottom border (not a shadow) now separates it, since it's the
-          same dark surface as the rest of the drawer, not a lighter block
-          sitting on a white body anymore. */}
+      // Reanimated's entering/exiting (passed to DialogOverlay below) only
+      // apply on native — `NativeOnlyAnimatedView` is a no-op passthrough on
+      // web (see components/ui/native-only-animated-view.tsx). A plain,
+      // unconditional `animate-in slide-in-from-right` covers web instead,
+      // matching this codebase's existing convention (DialogOverlay's own
+      // `animate-in fade-in-0`, ui/dialog.tsx's `DialogContent` `animate-in
+      // fade-in-0 zoom-in-95`) of an enter-only web animation with no
+      // attempted exit — NOT a `data-[state=...]` conditional: `@rn-
+      // primitives/dialog`'s web shim sets `data-state` on Radix's own
+      // outer Dialog.Content element, one level above the plain View our
+      // className/props actually land on, so a `data-[state=open]:` selector
+      // here would never match — same root cause the codebase already
+      // avoids everywhere else.
+      className={cn(
+        'ml-auto w-[86%] max-w-[400px] overflow-hidden border-l border-white/10 bg-primary',
+        Platform.select({ web: 'animate-in slide-in-from-right duration-300 ease-out' })
+      )}
+      style={{ height: '100%' }}>
+        <StatusBar style='light'/>
       <View
         className="gap-5 border-b border-white/10 px-6 pb-7"
         style={{ paddingTop: insets.top + 16 }}>
@@ -193,7 +195,10 @@ export function NavDrawer() {
         <Icon as={Menu} size={22} className="text-foreground" />
       </DialogTrigger>
       <DialogPortal>
-        <DialogOverlay className="items-stretch justify-end p-0">
+        <DialogOverlay
+          className="items-stretch justify-end p-0"
+          contentEntering={SlideInRight.duration(300).reduceMotion(ReduceMotion.System)}
+          contentExiting={SlideOutRight.duration(220).reduceMotion(ReduceMotion.System)}>
           <DrawerContent />
         </DialogOverlay>
       </DialogPortal>

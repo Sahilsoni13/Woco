@@ -5,7 +5,7 @@ import * as DialogPrimitive from '@rn-primitives/dialog';
 import { X } from 'lucide-react-native';
 import * as React from 'react';
 import { Platform, Text, View, type GestureResponderEvent, type ViewProps } from 'react-native';
-import { FadeIn, FadeOut, ReduceMotion } from 'react-native-reanimated';
+import Animated, { FadeIn, FadeOut, ReduceMotion } from 'react-native-reanimated';
 import { FullWindowOverlay as RNFullWindowOverlay } from 'react-native-screens';
 
 const Dialog = DialogPrimitive.Root;
@@ -18,13 +18,24 @@ const DialogClose = DialogPrimitive.Close;
 
 const FullWindowOverlay = Platform.OS === 'ios' ? RNFullWindowOverlay : React.Fragment;
 
+type EnteringAnimation = React.ComponentProps<typeof Animated.View>['entering'];
+type ExitingAnimation = React.ComponentProps<typeof Animated.View>['exiting'];
+
 function DialogOverlay({
   className,
   children,
   onPress,
+  contentEntering,
+  contentExiting,
   ...props
 }: Omit<React.ComponentProps<typeof DialogPrimitive.Overlay>, 'asChild'> & {
   children?: React.ReactNode;
+  // Lets a caller (e.g. NavDrawer's side-docked sheet) override just the
+  // content's own native entrance/exit — the backdrop's fade below is
+  // untouched, and every other Dialog/FilterSheet usage keeps the default
+  // fade by simply not passing these.
+  contentEntering?: EnteringAnimation;
+  contentExiting?: ExitingAnimation;
 }) {
   const { onOpenChange } = DialogPrimitive.useRootContext();
 
@@ -53,8 +64,8 @@ function DialogOverlay({
           exiting={FadeOut.duration(150).reduceMotion(ReduceMotion.System)}
           as="Pressable">
           <NativeOnlyAnimatedView
-            entering={FadeIn.delay(50).reduceMotion(ReduceMotion.System)}
-            exiting={FadeOut.duration(150).reduceMotion(ReduceMotion.System)}>
+            entering={contentEntering ?? FadeIn.delay(50).reduceMotion(ReduceMotion.System)}
+            exiting={contentExiting ?? FadeOut.duration(150).reduceMotion(ReduceMotion.System)}>
             <>{children}</>
           </NativeOnlyAnimatedView>
         </NativeOnlyAnimatedView>

@@ -122,10 +122,11 @@ export function JoinScreen() {
   }
 
   return (
+    <>
+      <StatusBar style="light" />
     <View className="bg-primary flex-1">
       {/* Same reasoning as LoginScreen: app-wide StatusBar defaults to
           "dark", this is the one other screen with a dark top panel. */}
-      {/* <StatusBar style="light" /> */}
       <View style={{ paddingTop: insets.top + 24 }} className="items-center gap-2 px-6 pb-8">
         <View className="flex-row items-center gap-2 rounded-2xl border border-white/10 bg-white/[0.06] px-5 py-3">
           <Text className="font-montserrat text-[16px] font-bold text-white">WOCO</Text>
@@ -363,5 +364,6 @@ export function JoinScreen() {
           ) : null}
       </View>
     </View>
+    </>
   );
 }

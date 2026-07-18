@@ -183,13 +183,14 @@ export function LoginScreen() {
   }
 
   return (
+    <>
+      <StatusBar style="light" />
     <View className="flex-1 bg-primary">
       {/* App-wide StatusBar is fixed to "dark" (see app/_layout.tsx) since
           every other screen has a light background — this is the one
           screen with a dark top panel, so it needs light icons instead.
           The most recently mounted <StatusBar> wins, which is this one
           while the screen is focused. */}
-      {/* <StatusBar style="light" /> */}
       <View style={{ paddingTop: insets.top + 24 }} className="items-center gap-2 px-6 pb-8">
         <View className="flex-row items-center gap-2 rounded-2xl border border-white/10 bg-white/[0.06] px-5 py-3">
           <Text className="font-montserrat text-[16px] font-bold text-white">WOCO</Text>
@@ -597,5 +598,6 @@ export function LoginScreen() {
         </KeyboardAwareScrollView>
       </View>
     </View>
+    </>
   );
 }

@@ -56,23 +56,74 @@ export default function RootLayout() {
             the background never actually goes dark, so status bar content stays dark too. */}
           <StatusBar style="dark" />
           <Stack>
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            <Stack.Screen name="about" options={{ headerShown: false }} />
-            <Stack.Screen name="contact" options={{ headerShown: false }} />
-            <Stack.Screen name="faq" options={{ headerShown: false }} />
-            <Stack.Screen name="terms" options={{ headerShown: false }} />
-            <Stack.Screen name="privacy" options={{ headerShown: false }} />
-            <Stack.Screen name="cookies" options={{ headerShown: false }} />
-            <Stack.Screen name="become-a-partner" options={{ headerShown: false }} />
-            <Stack.Screen name="hotels" options={{ headerShown: false }} />
-            <Stack.Screen name="hotels/[id]" options={{ headerShown: false }} />
-            <Stack.Screen name="booking/[id]" options={{ headerShown: false }} />
-            <Stack.Screen name="family" options={{ headerShown: false }} />
-            <Stack.Screen name="points" options={{ headerShown: false }} />
-            <Stack.Screen name="support" options={{ headerShown: false }} />
-            <Stack.Screen name="support/[id]" options={{ headerShown: false }} />
-            <Stack.Screen name="login" options={{ headerShown: false }} />
-            <Stack.Screen name="join" options={{ headerShown: false }} />
+            <Stack.Screen
+              name="(tabs)"
+              options={{ headerShown: false, animation: 'slide_from_right' }}
+            />
+            <Stack.Screen
+              name="about"
+              options={{ headerShown: false, animation: 'slide_from_right' }}
+            />
+            <Stack.Screen
+              name="contact"
+              options={{ headerShown: false, animation: 'slide_from_right' }}
+            />
+            <Stack.Screen
+              name="faq"
+              options={{ headerShown: false, animation: 'slide_from_right' }}
+            />
+            <Stack.Screen
+              name="terms"
+              options={{ headerShown: false, animation: 'slide_from_right' }}
+            />
+            <Stack.Screen
+              name="privacy"
+              options={{ headerShown: false, animation: 'slide_from_right' }}
+            />
+            <Stack.Screen
+              name="cookies"
+              options={{ headerShown: false, animation: 'slide_from_right' }}
+            />
+            <Stack.Screen
+              name="become-a-partner"
+              options={{ headerShown: false, animation: 'slide_from_right' }}
+            />
+            <Stack.Screen
+              name="hotels"
+              options={{ headerShown: false, animation: 'slide_from_right' }}
+            />
+            <Stack.Screen
+              name="hotels/[id]"
+              options={{ headerShown: false, animation: 'slide_from_right' }}
+            />
+            <Stack.Screen
+              name="booking/[id]"
+              options={{ headerShown: false, animation: 'slide_from_right' }}
+            />
+            <Stack.Screen
+              name="family"
+              options={{ headerShown: false, animation: 'slide_from_right' }}
+            />
+            <Stack.Screen
+              name="points"
+              options={{ headerShown: false, animation: 'slide_from_right' }}
+            />
+            <Stack.Screen
+              name="support"
+              options={{ headerShown: false, animation: 'slide_from_right' }}
+            />
+            <Stack.Screen
+              name="support/[id]"
+              options={{ headerShown: false, animation: 'slide_from_right' }}
+            />
+            <Stack.Screen
+              name="login"
+              options={{ headerShown: false, animation: 'slide_from_right' }}
+            />
+            <Stack.Screen
+              name="join"
+              options={{ headerShown: false, animation: 'slide_from_right' }}
+            />
           </Stack>
           <PortalHost />
         </ThemeProvider>
