@@ -84,27 +84,10 @@ export function Footer() {
       </View>
 
       {/* Bottom row */}
-      <View className="border-border flex-row flex-wrap items-center justify-between gap-3  px-5 py-5">
-        <Text className="font-montserrat text-ltx-muted text-xs">
+      <View className="border-border flex-row flex-wrap items-center justify-center gap-3  px-5 py-5">
+        <Text className="font-montserrat text-ltx-muted text-xs text-center">
           © {year} WOCO Verdant Estates. All rights reserved.
         </Text>
-        <View className="flex-row gap-4">
-          <Link href="/terms" asChild>
-            <Pressable>
-              <Text className="font-montserrat text-ltx-muted text-xs">Terms</Text>
-            </Pressable>
-          </Link>
-          <Link href="/privacy" asChild>
-            <Pressable>
-              <Text className="font-montserrat text-ltx-muted text-xs">Privacy</Text>
-            </Pressable>
-          </Link>
-          <Link href="/cookies" asChild>
-            <Pressable>
-              <Text className="font-montserrat text-ltx-muted text-xs">Cookies</Text>
-            </Pressable>
-          </Link>
-        </View>
       </View>
     </View>
   );

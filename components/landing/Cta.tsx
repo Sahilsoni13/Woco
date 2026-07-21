@@ -58,19 +58,19 @@ export function Cta() {
           never exceed the container regardless of label length. The original
           draft nested a `gap-6` inside each stat AND on the outer row, which
           double-stacked spacing and pushed "Active Members" off screen. */}
-      <View className="flex-row items-center border-t border-border pt-8">
+      <View className="flex-row items-center justify-between border-t border-border pt-8">
         {STATS.map((stat, index) => (
           <React.Fragment key={stat.label}>
-            {index > 0 ? <View className="mx-4 h-8 w-px bg-border" /> : null}
-            <View className="flex-1">
+            {index > 0 ? <View className="mx-1 h-8 w-px bg-border" /> : null}
+            <View className="flex-1 items-center justify-between">
               <Text
                 numberOfLines={1}
-                className="font-montserrat text-[22px] font-light leading-none text-foreground">
+                className="font-montserrat text-[18px] whitespace-nowrap font-light leading-none text-foreground">
                 {stat.value}
               </Text>
               <Text
                 numberOfLines={2}
-                className="mt-1.5 font-montserrat text-[11px] uppercase tracking-[1.5px] text-muted-foreground">
+                className="mt-1.5 font-montserrat text-[10px] uppercase whitespace-nowrap tracking-[1.5px] text-muted-foreground">
                 {stat.label}
               </Text>
             </View>

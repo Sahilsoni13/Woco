@@ -30,11 +30,11 @@ export function RemoveFamilyMemberDialog({ member, onOpenChange, onConfirm }: Re
           from your family members? This action cannot be undone.
         </Text>
         <View className="w-full flex-row gap-3">
-          <Button variant="outline" size="lg" className="flex-1 rounded-full" onPress={() => onOpenChange(false)}>
-            <Text className="text-foreground text-[12px] font-semibold uppercase tracking-[1px]">Cancel</Text>
+          <Button variant="outline" size="sm" className="flex-1 rounded-full" onPress={() => onOpenChange(false)}>
+            <Text className="text-foreground text-[11px] font-semibold uppercase tracking-[1px]">Cancel</Text>
           </Button>
-          <Button variant="destructive" size="lg" className="flex-1 rounded-full" onPress={onConfirm}>
-            <Text className="text-[12px] font-semibold uppercase tracking-[1px] text-white">Remove</Text>
+          <Button variant="destructive" size="sm" className="flex-1 rounded-full" onPress={onConfirm}>
+            <Text className="text-[11px] font-semibold uppercase tracking-[1px] text-white">Remove</Text>
           </Button>
         </View>
       </DialogContent>

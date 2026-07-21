@@ -1,11 +1,39 @@
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
+import { useScrollReveal } from '@/lib/use-scroll-reveal';
 import { Star } from 'lucide-react-native';
+import * as React from 'react';
 import { View } from 'react-native';
 import { MEMBER_REVIEW, RATING_CATEGORIES } from './mock-data';
 
-function RatingBar({ label, score }: { label: string; score: number }) {
-  const pct = (score / 5) * 100;
+// Same scroll-into-view trigger + rAF ease-out fill as Stats.tsx's counters
+// (`useCountUp`) — the bars used to jump straight to their final width with
+// no animation at all, mount or not.
+function useFillReveal(targetPct: number, start: boolean, durationMs = 900) {
+  const [pct, setPct] = React.useState(0);
+
+  React.useEffect(() => {
+    if (!start) return;
+    let frame: number;
+    const beginTime = Date.now();
+
+    function tick() {
+      const progress = Math.min((Date.now() - beginTime) / durationMs, 1);
+      const eased = 1 - (1 - progress) ** 3;
+      setPct(targetPct * eased);
+      if (progress < 1) frame = requestAnimationFrame(tick);
+    }
+
+    frame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame);
+  }, [start, targetPct, durationMs]);
+
+  return pct;
+}
+
+function RatingBar({ label, score, start }: { label: string; score: number; start: boolean }) {
+  const targetPct = (score / 5) * 100;
+  const pct = useFillReveal(targetPct, start);
   return (
     <View className="gap-2">
       <View className="flex-row items-center justify-between">
@@ -20,8 +48,18 @@ function RatingBar({ label, score }: { label: string; score: number }) {
 }
 
 export function HotelReviewsSection() {
+  const { isVisible, onLayout } = useScrollReveal();
+
+  // `onLayout` must sit on THIS section's own outermost View — the one that's
+  // a direct child of PublicPageLayout's ScrollView content (matching
+  // Stats.tsx's placement) — not on some nested child further down. RN's
+  // onLayout reports position relative to the immediate parent, not the
+  // scroll container, so putting it on an inner View measured only that
+  // View's tiny offset within its own parent, which was already satisfied
+  // by the "within 85% of a screen height" check the instant this mounted —
+  // the reveal fired (and finished) on mount, before any real scrolling.
   return (
-    <View className="border-border gap-6 border-t px-5 py-8">
+    <View onLayout={onLayout} className="border-border gap-6 border-t px-5 py-8">
       <View className="flex-row items-center gap-4">
         <View className="bg-primary items-center gap-1.5 rounded-2xl px-4 py-3">
           <Icon as={Star} size={14} className="fill-white text-white" />
@@ -40,7 +78,7 @@ export function HotelReviewsSection() {
 
       <View className="border-border gap-5 rounded-3xl border p-5">
         {RATING_CATEGORIES.map((category) => (
-          <RatingBar key={category.label} label={category.label} score={category.score} />
+          <RatingBar key={category.label} label={category.label} score={category.score} start={isVisible} />
         ))}
       </View>
 

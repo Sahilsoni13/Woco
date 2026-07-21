@@ -16,6 +16,26 @@ export function BookingScreen() {
   const [query, setQuery] = React.useState('');
   const tab = BOOKING_TABS[activeTab];
 
+  // Tabs previously just changed color on tap with no scroll behavior at
+  // all — selecting one near the trailing edge could leave it half-cut-off
+  // if the row hadn't already been scrolled that far. `tabLayouts` caches
+  // each Pressable's own x/width (each is a direct child of the ScrollView,
+  // so `onLayout`'s x is already relative to the scrollable content — same
+  // space `scrollTo({x})` expects, unlike the mistake made with a *nested*
+  // child in HotelReviewsSection's onLayout bug) so the selected tab can be
+  // scrolled to the horizontal center of the visible row.
+  const scrollRef = React.useRef<ScrollView>(null);
+  const [viewportWidth, setViewportWidth] = React.useState(0);
+  const tabLayouts = React.useRef<Record<number, { x: number; width: number }>>({});
+
+  function handleSelectTab(index: number) {
+    setActiveTab(index);
+    const layout = tabLayouts.current[index];
+    if (!layout || !viewportWidth) return;
+    const targetX = layout.x + layout.width / 2 - viewportWidth / 2;
+    scrollRef.current?.scrollTo({ x: Math.max(targetX, 0), animated: true });
+  }
+
   const filtered = MOCK_ALL_BOOKINGS.filter((booking) => {
     if (tab.statuses && !tab.statuses.includes(booking.status)) return false;
     if (query.trim()) {
@@ -31,6 +51,8 @@ export function BookingScreen() {
         <Text className="text-foreground text-[22px] font-semibold">Bookings</Text>
 
         <ScrollView
+          ref={scrollRef}
+          onLayout={(e) => setViewportWidth(e.nativeEvent.layout.width)}
           horizontal
           showsHorizontalScrollIndicator={false}
           contentContainerClassName="gap-2 pr-5">
@@ -39,7 +61,10 @@ export function BookingScreen() {
             return (
               <Pressable
                 key={t.label}
-                onPress={() => setActiveTab(index)}
+                onPress={() => handleSelectTab(index)}
+                onLayout={(e) => {
+                  tabLayouts.current[index] = { x: e.nativeEvent.layout.x, width: e.nativeEvent.layout.width };
+                }}
                 className={cn('rounded-full px-4 py-2', active ? 'bg-primary' : 'border-border border')}>
                 <Text
                   className={cn(

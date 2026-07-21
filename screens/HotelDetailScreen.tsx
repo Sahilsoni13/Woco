@@ -52,7 +52,10 @@ export function HotelDetailScreen({ id }: HotelDetailScreenProps) {
         <HotelAmenitiesSection />
       </PublicPageLayout>
 
-      {selectedRoom ? <BookingCtaBar room={selectedRoom} onPress={() => setSheetOpen(true)} /> : null}
+      {/* Rendered unconditionally (not gated on selectedRoom) so BookingCtaBar
+          can animate its own exit too, not just its entrance — see the
+          comment in that file for why. */}
+      <BookingCtaBar room={selectedRoom} onPress={() => setSheetOpen(true)} />
 
       <RequestBookingSheet open={sheetOpen} onOpenChange={setSheetOpen} hotelName={hotel.name} room={selectedRoom} />
     </View>

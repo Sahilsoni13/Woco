@@ -159,12 +159,12 @@ export function EditFamilyMemberDialog({ member, onOpenChange, onSave }: EditFam
           {error ? <Text className="font-montserrat text-[12px] text-red-500">{error}</Text> : null}
         </KeyboardAwareScrollView>
 
-        <View className="flex-row gap-3">
-          <Button variant="outline" size="lg" className="flex-1 rounded-full" onPress={() => onOpenChange(false)}>
-            <Text className="text-foreground text-[12px] font-semibold uppercase tracking-[1px]">Cancel</Text>
+        <View className="flex-row gap-2">
+          <Button variant="outline" size="sm" className="flex-1 rounded-full" onPress={() => onOpenChange(false)}>
+            <Text className="text-foreground text-[11px] font-semibold uppercase tracking-[1px]">Cancel</Text>
           </Button>
-          <Button size="lg" className="flex-1 rounded-full" onPress={handleSave}>
-            <Text className="text-primary-foreground text-[12px] font-semibold uppercase tracking-[1px]">
+          <Button size="sm" className="flex-1 rounded-full" onPress={handleSave}>
+            <Text className="text-primary-foreground text-[11px] font-semibold uppercase tracking-[1px]">
               Save Changes
             </Text>
           </Button>

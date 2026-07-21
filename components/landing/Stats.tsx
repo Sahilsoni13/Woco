@@ -63,7 +63,7 @@ function StatItem({ stat, start }: { stat: Stat; start: boolean }) {
   const value = useCountUp(stat.target, start);
 
   return (
-    <View className="w-[47%] gap-1">
+    <View className="w-[47%] gap-1 flex flex-col items-center justify-center">
       <Text className="font-eb-garamond text-[38px] leading-[42px] text-foreground">
         {formatWithCommas(value)}
         {stat.suffix}

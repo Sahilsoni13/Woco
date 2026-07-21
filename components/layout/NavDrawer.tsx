@@ -114,16 +114,16 @@ function DrawerContent() {
               className="overflow-hidden rounded-2xl border border-white/10 bg-white/[0.05]">
               <Accordion type="multiple">
                 <AccordionItem value={section.title} className="border-b-0">
-                  <AccordionTrigger className="px-4 py-3.5">
+                  <AccordionTrigger className="px-3 py-2">
                     <View className="flex-row items-center gap-3">
-                      <View className="h-9 w-9 items-center justify-center rounded-full bg-white/10">
+                      <View className="h-7 w-7 items-center justify-center rounded-full bg-white/10">
                         <Icon
                           as={SECTION_ICONS[section.title] ?? Compass}
                           size={16}
                           className="text-ltx-gold"
                         />
                       </View>
-                      <Text className="font-montserrat-medium text-[14px] text-white">
+                      <Text className="font-montserrat-medium text-xs text-white">
                         {section.title}
                       </Text>
                     </View>
@@ -132,8 +132,8 @@ function DrawerContent() {
                     <View className="gap-0.5 border-t border-white/10 pt-2">
                       {section.links.map((link) => (
                         <Link key={link.label} href={link.href as Href} asChild onPress={close}>
-                          <Pressable className="flex-row items-center justify-between rounded-xl py-3 pl-[52px] pr-2 active:bg-white/10">
-                            <Text className="font-montserrat text-[13px] text-white/60">
+                          <Pressable className="flex-row items-center justify-between rounded-xl py-2  pr-2 active:bg-white/10">
+                            <Text className="font-montserrat text-[11px] text-white/60">
                               {link.label}
                             </Text>
                             <Icon as={ChevronRight} size={14} className="text-white/25" />

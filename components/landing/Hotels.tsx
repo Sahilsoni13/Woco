@@ -1,45 +1,23 @@
-import { POPULAR_DESTINATIONS } from '@/components/search/destinations';
+import { HotelCard } from '@/components/hotels/HotelCard';
+import { MOCK_HOTELS } from '@/components/hotels/mock-data';
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/utils';
 import { Link } from 'expo-router';
-import { ArrowRight, MapPin, Star } from 'lucide-react-native';
+import { ArrowRight } from 'lucide-react-native';
 import * as React from 'react';
-import { Image, Pressable, ScrollView, View } from 'react-native';
+import { Pressable, ScrollView, View } from 'react-native';
 
-const PHOTOS = [
-  'https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=600&q=80',
-  'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=600&q=80',
-  'https://images.unsplash.com/photo-1584132967334-10e028bd69f7?auto=format&fit=crop&w=600&q=80',
-  'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=600&q=80',
-];
-
-const HOTEL_NAMES = [
-  'Villa Aurelia',
-  'Cliffside Sanctuary',
-  'Tirta Retreat',
-  'Desert Rose Estate',
-  'Casa Solmare',
-  'Alpine Reverie',
-  'Sakura Pavilion',
-  'Kasbah Al Noor',
-  'Coastal Horizon Villa',
-];
-
-const RATINGS = [5, 5, 5, 4, 5, 5, 4, 4, 5];
-
-// Placeholder data — web fetches this section from a real hotels API
-// (`publicHotelsApi.getAll()`) that doesn't exist in this app yet. Same
-// reasoning as components/search/destinations.ts: UI-only for now, reusing
-// the same destination list for a consistent world across the app.
-const MOCK_HOTELS = POPULAR_DESTINATIONS.map((destination, index) => ({
-  id: String(index),
-  name: HOTEL_NAMES[index],
-  city: destination.city,
-  country: destination.country,
-  rating: RATINGS[index],
-  photo: PHOTOS[index % PHOTOS.length],
-}));
+// Was its own separate mock catalog (ids '0'-'8', built from
+// components/search/destinations.ts's POPULAR_DESTINATIONS) with a
+// hand-duplicated copy of components/hotels/HotelCard.tsx's markup inline —
+// its cards didn't link anywhere at all, and even a Link would have pointed
+// at ids that don't exist in components/hotels/mock-data.ts's real catalog
+// (ids '1'-'14'), the one /hotels and /hotels/[id] actually read from. Now
+// reuses that same catalog + the same HotelCard component directly, so
+// tapping a card here lands on the exact same hotel a user would reach from
+// the full /hotels listing — one shared source of hotel data and one shared
+// card, not two of each.
 
 export function Hotels() {
   const [activeCountry, setActiveCountry] = React.useState('All');
@@ -50,6 +28,21 @@ export function Hotels() {
   );
   const filtered =
     activeCountry === 'All' ? MOCK_HOTELS : MOCK_HOTELS.filter((h) => h.country === activeCountry);
+
+  // Same scroll-to-center-on-select fix as BookingScreen.tsx's status tabs —
+  // see that memory note for why each Pressable's onLayout.x is safe to use
+  // directly here (a direct child of the ScrollView, not a nested one).
+  const scrollRef = React.useRef<ScrollView>(null);
+  const [viewportWidth, setViewportWidth] = React.useState(0);
+  const filterLayouts = React.useRef<Record<string, { x: number; width: number }>>({});
+
+  function handleSelectFilter(filter: string) {
+    setActiveCountry(filter);
+    const layout = filterLayouts.current[filter];
+    if (!layout || !viewportWidth) return;
+    const targetX = layout.x + layout.width / 2 - viewportWidth / 2;
+    scrollRef.current?.scrollTo({ x: Math.max(targetX, 0), animated: true });
+  }
 
   return (
     <View className="gap-6 bg-background px-5 py-12">
@@ -72,6 +65,8 @@ export function Hotels() {
       </View>
 
       <ScrollView
+        ref={scrollRef}
+        onLayout={(e) => setViewportWidth(e.nativeEvent.layout.width)}
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerClassName="gap-2 pr-5">
@@ -80,7 +75,10 @@ export function Hotels() {
           return (
             <Pressable
               key={filter}
-              onPress={() => setActiveCountry(filter)}
+              onPress={() => handleSelectFilter(filter)}
+              onLayout={(e) => {
+                filterLayouts.current[filter] = { x: e.nativeEvent.layout.x, width: e.nativeEvent.layout.width };
+              }}
               className={cn(
                 'rounded-full px-5 py-2',
                 active ? 'bg-primary' : 'border border-border'
@@ -107,36 +105,7 @@ export function Hotels() {
         <View className="flex-row flex-wrap gap-4">
           {filtered.map((hotel) => (
             <View key={hotel.id} className="w-[47%]">
-              <Pressable className="overflow-hidden rounded-2xl border border-border active:border-foreground/30">
-                <View className="aspect-[4/3]">
-                  <Image source={{ uri: hotel.photo }} resizeMode="cover" style={{ flex: 1 }} />
-                </View>
-                <View className="gap-1.5 p-3">
-                  <View className="flex-row items-center gap-1">
-                    <Icon as={MapPin} size={11} className="text-muted-foreground" />
-                    <Text
-                      numberOfLines={1}
-                      className="flex-1 font-montserrat text-[11px] text-muted-foreground">
-                      {hotel.city}, {hotel.country}
-                    </Text>
-                  </View>
-                  <Text
-                    numberOfLines={1}
-                    className="font-montserrat-medium text-[14px] text-foreground">
-                    {hotel.name}
-                  </Text>
-                  <View className="flex-row items-center justify-between border-t border-border pt-2">
-                    <View className="flex-row gap-0.5">
-                      {Array.from({ length: hotel.rating }).map((_, i) => (
-                        <Icon key={i} as={Star} size={10} color="#f59e0b" fill="#f59e0b" />
-                      ))}
-                    </View>
-                    <Text className="font-montserrat text-[10px] text-muted-foreground">
-                      Members only
-                    </Text>
-                  </View>
-                </View>
-              </Pressable>
+              <HotelCard hotel={hotel} />
             </View>
           ))}
         </View>
