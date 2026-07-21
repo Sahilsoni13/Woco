@@ -17,7 +17,8 @@ import { cn } from '@/lib/utils';
 import { router } from 'expo-router';
 import { Check, CircleCheck, ChevronDown, ChevronLeft, ChevronRight, LoaderCircle, Star } from 'lucide-react-native';
 import * as React from 'react';
-import { Image, KeyboardAvoidingView, Platform, Pressable, ScrollView, View } from 'react-native';
+import { Image, Pressable, View } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 function FieldLabel({ children }: { children: React.ReactNode }) {
@@ -199,7 +200,7 @@ export function BecomePartnerScreen() {
   }
 
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} className="bg-background flex-1">
+    <View className="bg-background flex-1">
       <View className="border-border bg-background border-b" style={{ paddingTop: insets.top }}>
         <View className="h-14 flex-row items-center justify-between px-5">
           <Pressable onPress={() => router.back()} hitSlop={8}>
@@ -212,9 +213,10 @@ export function BecomePartnerScreen() {
         </View>
       </View>
 
-      <ScrollView
-        contentContainerClassName="px-5 pb-28 pt-6"
+      <KeyboardAwareScrollView
+        contentContainerStyle={{ flexGrow: 1, paddingHorizontal: 20, paddingTop: 24, paddingBottom: 112 }}
         keyboardShouldPersistTaps="handled"
+        bottomOffset={20}
         showsVerticalScrollIndicator={false}>
         <StepProgress step={step} />
 
@@ -608,7 +610,7 @@ export function BecomePartnerScreen() {
             </>
           ) : null}
         </View>
-      </ScrollView>
+      </KeyboardAwareScrollView>
 
       <View
         className="border-border bg-background absolute bottom-0 left-0 right-0 flex-row items-center justify-between border-t px-5 pt-3"
@@ -666,6 +668,6 @@ export function BecomePartnerScreen() {
         value={phoneDial}
         onChange={setPhoneDial}
       />
-    </KeyboardAvoidingView>
+    </View>
   );
 }

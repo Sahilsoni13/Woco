@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "WocoApp",
+    "name": "Woco",
     "slug": "WocoApp",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -16,7 +16,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#000000"
       },
       "permissions": [
         "android.permission.RECORD_AUDIO"
@@ -35,7 +35,7 @@
         {
           "image": "./assets/images/splash.png",
           "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
+          "backgroundColor": "#000000"
         }
       ],
       "expo-status-bar",
