@@ -5,7 +5,13 @@ import * as React from 'react';
 import { View } from 'react-native';
 import { HOTELS_STATS } from './mock-data';
 
-const HERO_VIDEO = require('@/assets/video/bg-video.mp4');
+// Hosted on Cloudinary instead of bundled locally (`require(...)`) — the
+// original local file was ~53MB, which was baked directly into the app
+// binary at build time. A remote `{ uri }` source streams at runtime
+// instead, so it no longer inflates the installed app size at all.
+const HERO_VIDEO = {
+  uri: 'https://res.cloudinary.com/pc848udo/video/upload/v1784719159/4010511-hd_1280_720_50fps_gskh4m.mp4',
+};
 
 // Web's version is a hero with a "Member Collection" label, a two-line
 // italic heading, and a 3-stat row — same layout here, center-aligned

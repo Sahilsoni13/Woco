@@ -247,11 +247,7 @@ export function RequestBookingSheet({ open, onOpenChange, hotelName, room }: Req
       onOpenChange={setSuccessOpen}
       title="Request Sent"
       message={successMessage}
-      // Web's success screen has a "View My Bookings" button — same
-      // redirect here, though the Bookings tab won't actually show this
-      // request (no shared state between screens, same "no backend"
-      // limitation already noted for the Family preview card).
-      secondaryAction={{ label: 'View Booking', onPress: () => router.push('/booking') }}
+      secondaryAction={{ label: 'View Booking', onPress: () => {router.push('/booking/1'),setSuccessOpen(false)} }}
     />
     </>
   );

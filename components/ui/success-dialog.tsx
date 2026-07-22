@@ -59,7 +59,18 @@ export function SuccessDialog({
             </Text>
           </Button>
           {secondaryAction ? (
-            <Button size="sm" className="flex-1 rounded-full" onPress={secondaryAction.onPress}>
+            <Button
+              size="sm"
+              className="flex-1 rounded-full"
+              onPress={() => {
+                // Close first — otherwise `open` stays true while the
+                // secondary action navigates away, and the dialog reappears
+                // if the user later navigates back to this screen. (This
+                // exact fix has regressed more than once in this file —
+                // don't drop it again.)
+                onOpenChange(false);
+                secondaryAction.onPress();
+              }}>
               <Text className="text-primary-foreground text-[11px] font-semibold uppercase tracking-[1px]">
                 {secondaryAction.label}
               </Text>

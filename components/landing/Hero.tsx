@@ -5,7 +5,13 @@ import { useVideoPlayer, VideoView } from 'expo-video';
 import { Star } from 'lucide-react-native';
 import { View, useWindowDimensions } from 'react-native';
 
-const HERO_VIDEO = require('@/assets/video/hero-bg.mp4');
+// Hosted on Cloudinary instead of bundled locally (`require(...)`) — the
+// original local file was ~15MB, which was baked directly into the app
+// binary at build time. A remote `{ uri }` source streams at runtime
+// instead, so it no longer inflates the installed app size at all.
+const HERO_VIDEO = {
+  uri: 'https://res.cloudinary.com/pc848udo/video/upload/v1784719234/8397918-hd_1920_1080_25fps_hc2ilo.mp4',
+};
 const GOLD = '#b8962e';
 
 // A solid header always sits above this (see components/layout/Header.tsx) —

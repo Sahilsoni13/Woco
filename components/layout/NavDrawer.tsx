@@ -17,8 +17,9 @@ import { cn } from '@/lib/utils';
 import * as DialogPrimitive from '@rn-primitives/dialog';
 import { Link, router, type Href } from 'expo-router';
 import { Building2, ChevronRight, Compass, Crown, Mail, Menu, Scale, X } from 'lucide-react-native';
+import * as React from 'react';
 import { Linking, Platform, Pressable, ScrollView, View } from 'react-native';
-import { ReduceMotion, SlideInRight, SlideOutRight } from 'react-native-reanimated';
+import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { Logo } from './Logo';
 import { DRAWER_NAV_SECTIONS } from './nav-links';
 import { InstagramIcon, LinkedinIcon, XSocialIcon } from './SocialIcons';
@@ -40,26 +41,50 @@ function DrawerContent() {
   const { onOpenChange } = DialogPrimitive.useRootContext();
   const close = () => onOpenChange(false);
   const insets = useSafeAreaInsets();
+
+  // Manual entrance-only slide-in-from-right, deliberately NOT Reanimated's
+  // `entering`/`exiting` Layout Animation API (previously SlideInRight/
+  // SlideOutRight via DialogOverlay's contentEntering/contentExiting) — that
+  // crashed for real on Android, "Couldn't find a navigation context,"
+  // because Reanimated v4's Layout Animations integrate with react-native-
+  // screens' screen-transition machinery, which a Portal-rendered Dialog
+  // sits outside of entirely (see the longer history in
+  // components/search/FilterSheet.tsx and components/ui/dialog.tsx — same
+  // mechanism, same crash, twice). A manual shared-value animation never
+  // touches that path. This subtree only mounts while the drawer is open, so
+  // a mount-only effect animates in every time it opens. 420 is a generous
+  // constant (>= the drawer's own max-w-[400px]) so it always starts fully
+  // off-screen regardless of actual measured width — no onLayout needed.
+  // Trade-off: only the entrance animates; closing is instant (the
+  // backdrop's own default FadeOut, unaffected by any of this, still plays).
+  const translateX = useSharedValue(420);
+  const contentOpacity = useSharedValue(0);
+
+  React.useEffect(() => {
+    translateX.value = withTiming(0, { duration: 300, easing: Easing.out(Easing.cubic) });
+    contentOpacity.value = withTiming(1, { duration: 300 });
+  }, [translateX, contentOpacity]);
+
+  const slideStyle = useAnimatedStyle(() => ({
+    transform: [{ translateX: translateX.value }],
+    opacity: contentOpacity.value,
+  }));
+
   return (
-    <DialogPrimitive.Content
-      // Reanimated's entering/exiting (passed to DialogOverlay below) only
-      // apply on native — `NativeOnlyAnimatedView` is a no-op passthrough on
-      // web (see components/ui/native-only-animated-view.tsx). A plain,
-      // unconditional `animate-in slide-in-from-right` covers web instead,
-      // matching this codebase's existing convention (DialogOverlay's own
-      // `animate-in fade-in-0`, ui/dialog.tsx's `DialogContent` `animate-in
-      // fade-in-0 zoom-in-95`) of an enter-only web animation with no
-      // attempted exit — NOT a `data-[state=...]` conditional: `@rn-
-      // primitives/dialog`'s web shim sets `data-state` on Radix's own
-      // outer Dialog.Content element, one level above the plain View our
-      // className/props actually land on, so a `data-[state=open]:` selector
-      // here would never match — same root cause the codebase already
-      // avoids everywhere else.
-      className={cn(
-        'ml-auto w-[86%] max-w-[400px] overflow-hidden border-l border-white/10 bg-primary',
-        Platform.select({ web: 'animate-in slide-in-from-right duration-300 ease-out' })
-      )}
-      style={{ height: '100%' }}>
+    <Animated.View
+      style={[{ marginLeft: 'auto', width: '86%', maxWidth: 400, height: '100%' }, slideStyle]}>
+      <DialogPrimitive.Content
+        // Web gets a plain, unconditional `animate-in slide-in-from-right`
+        // instead of a `data-[state=...]` conditional — traced through `@rn-
+        // primitives/dialog`'s web shim: it renders Radix's real
+        // Dialog.Content (which carries `data-state`) wrapping an *inner*
+        // plain View that this className actually lands on, so a
+        // `data-[state=open]:` selector here would never match — same root
+        // cause the codebase already avoids everywhere else.
+        className={cn(
+          'h-full w-full overflow-hidden border-l border-white/10 bg-primary',
+          Platform.select({ web: 'animate-in slide-in-from-right duration-300 ease-out' })
+        )}>
         <StatusBar style='light'/>
       <View
         className="gap-5 border-b border-white/10 px-6 pb-7"
@@ -184,7 +209,8 @@ function DrawerContent() {
           © {new Date().getFullYear()} WOCO Verdant Estates
         </Text>
       </ScrollView>
-    </DialogPrimitive.Content>
+      </DialogPrimitive.Content>
+    </Animated.View>
   );
 }
 
@@ -195,10 +221,7 @@ export function NavDrawer() {
         <Icon as={Menu} size={22} className="text-foreground" />
       </DialogTrigger>
       <DialogPortal>
-        <DialogOverlay
-          className="items-stretch justify-end p-0"
-          contentEntering={SlideInRight.duration(300).reduceMotion(ReduceMotion.System)}
-          contentExiting={SlideOutRight.duration(220).reduceMotion(ReduceMotion.System)}>
+        <DialogOverlay className="items-stretch justify-end p-0">
           <DrawerContent />
         </DialogOverlay>
       </DialogPortal>
