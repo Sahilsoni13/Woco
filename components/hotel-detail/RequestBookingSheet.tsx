@@ -2,12 +2,13 @@ import { MOCK_FAMILY_MEMBERS, RELATION_LABELS } from '@/components/family/mock-d
 import { FilterSheet } from '@/components/search/FilterSheet';
 import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
+import { SuccessDialog } from '@/components/ui/success-dialog';
 import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/utils';
 import { Link, router } from 'expo-router';
 import { CircleCheck, Circle, LoaderCircle, Minus, Plus, Users } from 'lucide-react-native';
 import * as React from 'react';
-import { Alert, Pressable, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import type { RoomType } from './mock-data';
 
 function formatWithCommas(value: number): string {
@@ -65,6 +66,8 @@ export function RequestBookingSheet({ open, onOpenChange, hotelName, room }: Req
   const [travelWith, setTravelWith] = React.useState<'SELF' | 'FAMILY'>('SELF');
   const [selectedFamilyIds, setSelectedFamilyIds] = React.useState<string[]>([]);
   const [submitting, setSubmitting] = React.useState(false);
+  const [successOpen, setSuccessOpen] = React.useState(false);
+  const [successMessage, setSuccessMessage] = React.useState('');
 
   React.useEffect(() => {
     if (open) {
@@ -107,21 +110,14 @@ export function RequestBookingSheet({ open, onOpenChange, hotelName, room }: Req
     setSubmitting(false);
     onOpenChange(false);
     const withFamily = travelingFamily.length > 0 ? ` — traveling with ${travelingFamily.map((m) => m.firstName).join(', ')}` : '';
-    Alert.alert(
-      'Request Sent',
-      `Your request for ${activeRoom.name} at ${hotelName}${withFamily} has been sent to our concierge team for review.`,
-      [
-        { text: 'OK', style: 'cancel' },
-        // Web's success screen has a "View My Bookings" button — same
-        // redirect here, though the Bookings tab won't actually show this
-        // request (no shared state between screens, same "no backend"
-        // limitation already noted for the Family preview card).
-        { text: 'View Booking', onPress: () => router.push('/booking') },
-      ]
+    setSuccessMessage(
+      `Your request for ${activeRoom.name} at ${hotelName}${withFamily} has been sent to our concierge team for review.`
     );
+    setSuccessOpen(true);
   }
 
   return (
+    <>
     <FilterSheet title="Request to Book" open={open} onOpenChange={onOpenChange}>
       <View className="gap-6 pt-1">
         <View className="border-border gap-1 rounded-2xl border p-4">
@@ -246,5 +242,17 @@ export function RequestBookingSheet({ open, onOpenChange, hotelName, room }: Req
         </Button>
       </View>
     </FilterSheet>
+    <SuccessDialog
+      open={successOpen}
+      onOpenChange={setSuccessOpen}
+      title="Request Sent"
+      message={successMessage}
+      // Web's success screen has a "View My Bookings" button — same
+      // redirect here, though the Bookings tab won't actually show this
+      // request (no shared state between screens, same "no backend"
+      // limitation already noted for the Family preview card).
+      secondaryAction={{ label: 'View Booking', onPress: () => router.push('/booking') }}
+    />
+    </>
   );
 }

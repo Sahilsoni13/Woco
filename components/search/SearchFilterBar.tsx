@@ -46,7 +46,7 @@ export function SearchFilterBar() {
 
   return (
     <>
-      <View className="border-border bg-background flex-row items-center rounded-full border p-1">
+      <View className="flex-row items-center rounded-full border border-border bg-background p-2.5">
         <PillField
           label="Location"
           value={location || 'Anywhere'}
@@ -55,7 +55,7 @@ export function SearchFilterBar() {
           onPress={() => toggle('location')}
           onClear={() => setLocation('')}
         />
-        <View className="bg-border h-5 w-px" />
+        <View className="h-5 w-px bg-border" />
         <PillField
           label="Dates"
           value={dateLabel}
@@ -64,7 +64,7 @@ export function SearchFilterBar() {
           onPress={() => toggle('dates')}
           onClear={() => setDateRange({ from: null, to: null })}
         />
-        <View className="bg-border h-5 w-px" />
+        <View className="h-5 w-px bg-border" />
         <PillField
           label="Guests"
           value={guestLabel}
@@ -75,7 +75,7 @@ export function SearchFilterBar() {
         />
         <Pressable
           onPress={handleSearch}
-          className="bg-primary active:bg-primary/90 ml-1 h-9 w-9 items-center justify-center rounded-full">
+          className="ml-1 h-9 w-9 items-center justify-center rounded-full bg-primary active:bg-primary/90">
           <Icon as={Search} size={15} className="text-primary-foreground" />
         </Pressable>
       </View>

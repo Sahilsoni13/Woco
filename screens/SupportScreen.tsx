@@ -4,19 +4,27 @@ import { SupportEmptyState } from '@/components/support/SupportEmptyState';
 import { TicketCard } from '@/components/support/TicketCard';
 import { HotelsPagination } from '@/components/hotels/HotelsPagination';
 import { Icon } from '@/components/ui/icon';
+import { SuccessDialog } from '@/components/ui/success-dialog';
 import { Text } from '@/components/ui/text';
-import { router } from 'expo-router';
+import { router, type Href } from 'expo-router';
 import { ChevronLeft, Plus } from 'lucide-react-native';
 import * as React from 'react';
-import { Alert, Pressable, ScrollView, View } from 'react-native';
+import { Pressable, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 let nextId = 100;
 
 export function SupportScreen() {
-  const [tickets, setTickets] = React.useState<Ticket[]>(MOCK_TICKETS);
+  // A fresh copy, not the same array reference as MOCK_TICKETS — handleCreate
+  // below mutates MOCK_TICKETS directly (so SupportDetailScreen can see new
+  // tickets too), and if this state started out *as* that same array object,
+  // that mutation would silently double up the newly created ticket here
+  // (once from the shared-reference mutation, once from setTickets' own
+  // spread), producing a duplicate `key` in the list below.
+  const [tickets, setTickets] = React.useState<Ticket[]>(() => [...MOCK_TICKETS]);
   const [page, setPage] = React.useState(1);
   const [createOpen, setCreateOpen] = React.useState(false);
+  const [successTicket, setSuccessTicket] = React.useState<Ticket | null>(null);
 
   const totalPages = Math.max(1, Math.ceil(tickets.length / TICKETS_PER_PAGE));
   const paginated = tickets.slice((page - 1) * TICKETS_PER_PAGE, page * TICKETS_PER_PAGE);
@@ -41,10 +49,15 @@ export function SupportScreen() {
         : undefined,
     };
     nextId += 1;
+    // MOCK_TICKETS is a mutable module-level array, not a frozen snapshot —
+    // SupportDetailScreen reads it directly rather than this screen's own
+    // `tickets` state, so without this the "View Ticket" button below would
+    // 404 on every ticket created this session.
+    MOCK_TICKETS.unshift(ticket);
     setTickets((prev) => [ticket, ...prev]);
     setPage(1);
     setCreateOpen(false);
-    Alert.alert('Ticket Created', `Your ticket ${ticket.ticketNumber} has been submitted successfully.`);
+    setSuccessTicket(ticket);
   }
 
   return (
@@ -77,6 +90,25 @@ export function SupportScreen() {
       </ScrollView>
 
       <CreateTicketSheet open={createOpen} onOpenChange={setCreateOpen} onCreate={handleCreate} />
+
+      <SuccessDialog
+        open={!!successTicket}
+        onOpenChange={(next) => {
+          if (!next) setSuccessTicket(null);
+        }}
+        title="Ticket Created"
+        message={
+          successTicket
+            ? `Your ticket ${successTicket.ticketNumber} has been submitted successfully.`
+            : ''
+        }
+        secondaryAction={{
+          label: 'View Ticket',
+          onPress: () => {
+            if (successTicket) router.push(`/support/${successTicket.id}` as Href);
+          },
+        }}
+      />
     </SafeAreaView>
   );
 }

@@ -8,9 +8,9 @@ import { View } from 'react-native';
 export function ExploreSearchCard() {
   return (
     <View className="-mt-9 px-5">
-      <View className="bg-background border-border rounded-full border p-2.5 shadow-lg shadow-black/10">
+      {/* <View className="bg-background border-border rounded-full border p-2.5 shadow-lg shadow-black/10"> */}
         <SearchFilterBar />
-      </View>
+      {/* </View> */}
     </View>
   );
 }
