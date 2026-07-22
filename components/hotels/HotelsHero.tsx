@@ -1,10 +1,11 @@
 import { Text } from '@/components/ui/text';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useVideoPlayer, VideoView } from 'expo-video';
 import * as React from 'react';
-import { Image, View } from 'react-native';
+import { View } from 'react-native';
 import { HOTELS_STATS } from './mock-data';
 
-const HERO_IMAGE = 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=2000&q=80';
+const HERO_VIDEO = require('@/assets/video/bg-video.mp4');
 
 // Web's version is a hero with a "Member Collection" label, a two-line
 // italic heading, and a 3-stat row — same layout here, center-aligned
@@ -12,6 +13,17 @@ const HERO_IMAGE = 'https://images.unsplash.com/photo-1566073771259-6a8506099945
 // on the landing page, since this page's hero has no search card below it
 // competing for attention.
 export function HotelsHero() {
+  // Replaces the static Unsplash still with the app's own looping estate
+  // footage (assets/video/bg-video.mp4) — muted + looped + no controls, same
+  // "ambient background" treatment as a CSS `<video autoplay loop muted>`
+  // would get on web. `expo-video` (not the deprecated `expo-av` Video
+  // component) is this SDK's current, non-deprecated video API.
+  const player = useVideoPlayer(HERO_VIDEO, (p) => {
+    p.loop = true;
+    p.muted = true;
+    p.play();
+  });
+
   return (
     // `min-h` instead of a fixed `h-[420px]` — the heading/subtitle/stats
     // stack can run taller than 420px on narrower phones (font-playfair
@@ -19,10 +31,12 @@ export function HotelsHero() {
     // own second line), and a fixed height + overflow-hidden was silently
     // clipping that overflow instead of growing to fit it.
     <View className="min-h-[420px] overflow-hidden bg-black">
-      <Image
-        source={{ uri: HERO_IMAGE }}
-        resizeMode="cover"
+      <VideoView
+        player={player}
         style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, width: '100%', height: '100%' }}
+        contentFit="cover"
+        nativeControls={false}
+        pointerEvents="none"
       />
       <LinearGradient
         colors={['rgba(0,0,0,0.65)', 'rgba(0,0,0,0.4)', 'rgba(0,0,0,0.72)']}

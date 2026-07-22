@@ -3,6 +3,7 @@ import { BookingsEmptyState } from '@/components/booking/BookingsEmptyState';
 import { BOOKING_TABS, MOCK_ALL_BOOKINGS } from '@/components/booking/mock-data';
 import { Icon } from '@/components/ui/icon';
 import { Input } from '@/components/ui/input';
+import { StaggerItem } from '@/components/ui/stagger-item';
 import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/utils';
 import { Search } from 'lucide-react-native';
@@ -97,7 +98,11 @@ export function BookingScreen() {
         {filtered.length === 0 ? (
           <BookingsEmptyState tabLabel={tab.label} isSearching={!!query.trim()} />
         ) : (
-          filtered.map((booking) => <BookingCard key={booking.id} booking={booking} />)
+          filtered.map((booking, index) => (
+            <StaggerItem key={booking.id} index={index}>
+              <BookingCard booking={booking} />
+            </StaggerItem>
+          ))
         )}
       </KeyboardAwareScrollView>
     </SafeAreaView>

@@ -79,10 +79,10 @@ export function HotelDetailGallery({ hotel }: { hotel: HotelDetail }) {
           </Text>
 
           <View className="absolute left-4 right-4 top-1/2 flex-row items-center justify-between">
-            <Pressable onPress={prev} className="h-11 w-11 items-center justify-center rounded-full bg-white/15">
+            <Pressable onPress={prev} className="h-11 w-11 items-center justify-center rounded-full bg-black/50">
               <Icon as={ChevronLeft} size={20} className="text-white" />
             </Pressable>
-            <Pressable onPress={next} className="h-11 w-11 items-center justify-center rounded-full bg-white/15">
+            <Pressable onPress={next} className="h-11 w-11 items-center justify-center rounded-full bg-black/50">
               <Icon as={ChevronRight} size={20} className="text-white" />
             </Pressable>
           </View>

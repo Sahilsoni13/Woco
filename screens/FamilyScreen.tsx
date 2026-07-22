@@ -8,6 +8,7 @@ import { RemoveFamilyMemberDialog } from '@/components/family/RemoveFamilyMember
 import { FamilyStatsRow } from '@/components/family/FamilyStatsRow';
 import { MOCK_PROFILE } from '@/components/profile/mock-data';
 import { Icon } from '@/components/ui/icon';
+import { StaggerItem } from '@/components/ui/stagger-item';
 import { Text } from '@/components/ui/text';
 import { router } from 'expo-router';
 import { ChevronLeft, Plus } from 'lucide-react-native';
@@ -73,13 +74,14 @@ export function FamilyScreen() {
           <FamilyEmptyState onAdd={() => setAddSheetOpen(true)} />
         ) : (
           <View className="gap-3">
-            {members.map((member) => (
-              <FamilyMemberCard
-                key={member.id}
-                member={member}
-                onEdit={() => setEditingMember(member)}
-                onRemove={() => setRemovingMember(member)}
-              />
+            {members.map((member, index) => (
+              <StaggerItem key={member.id} index={index}>
+                <FamilyMemberCard
+                  member={member}
+                  onEdit={() => setEditingMember(member)}
+                  onRemove={() => setRemovingMember(member)}
+                />
+              </StaggerItem>
             ))}
           </View>
         )}

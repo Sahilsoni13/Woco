@@ -4,6 +4,7 @@ import { SupportEmptyState } from '@/components/support/SupportEmptyState';
 import { TicketCard } from '@/components/support/TicketCard';
 import { HotelsPagination } from '@/components/hotels/HotelsPagination';
 import { Icon } from '@/components/ui/icon';
+import { StaggerItem } from '@/components/ui/stagger-item';
 import { SuccessDialog } from '@/components/ui/success-dialog';
 import { Text } from '@/components/ui/text';
 import { router, type Href } from 'expo-router';
@@ -83,7 +84,11 @@ export function SupportScreen() {
         {paginated.length === 0 ? (
           <SupportEmptyState onCreate={() => setCreateOpen(true)} />
         ) : (
-          paginated.map((ticket) => <TicketCard key={ticket.id} ticket={ticket} />)
+          paginated.map((ticket, index) => (
+            <StaggerItem key={ticket.id} index={index}>
+              <TicketCard ticket={ticket} />
+            </StaggerItem>
+          ))
         )}
 
         <HotelsPagination page={page} totalPages={totalPages} onPageChange={setPage} />

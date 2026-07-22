@@ -4,6 +4,7 @@ import { MOCK_TRANSACTIONS, TRANSACTIONS_PER_PAGE } from '@/components/points/mo
 import { PointsEmptyState } from '@/components/points/PointsEmptyState';
 import { TransactionRow } from '@/components/points/TransactionRow';
 import { Icon } from '@/components/ui/icon';
+import { StaggerItem } from '@/components/ui/stagger-item';
 import { Text } from '@/components/ui/text';
 import { router } from 'expo-router';
 import { ChevronLeft } from 'lucide-react-native';
@@ -45,7 +46,13 @@ export function PointsScreen() {
           </Text>
 
           <View className="border-border overflow-hidden rounded-2xl border">
-            {paginated.length === 0 ? <PointsEmptyState /> : paginated.map((tx) => <TransactionRow key={tx.id} transaction={tx} />)}
+            {paginated.length === 0
+              ? <PointsEmptyState />
+              : paginated.map((tx, index) => (
+                  <StaggerItem key={tx.id} index={index}>
+                    <TransactionRow transaction={tx} />
+                  </StaggerItem>
+                ))}
           </View>
 
           <HotelsPagination page={page} totalPages={totalPages} onPageChange={setPage} />

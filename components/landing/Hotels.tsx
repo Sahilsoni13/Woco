@@ -1,6 +1,7 @@
 import { HotelCard } from '@/components/hotels/HotelCard';
 import { MOCK_HOTELS } from '@/components/hotels/mock-data';
 import { Icon } from '@/components/ui/icon';
+import { StaggerItem } from '@/components/ui/stagger-item';
 import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/utils';
 import { Link } from 'expo-router';
@@ -103,10 +104,10 @@ export function Hotels() {
         </View>
       ) : (
         <View className="flex-row flex-wrap gap-4">
-          {filtered.map((hotel) => (
-            <View key={hotel.id} className="w-[47%]">
+          {filtered.map((hotel, index) => (
+            <StaggerItem key={hotel.id} index={index} style={{ width: '47%' }}>
               <HotelCard hotel={hotel} />
-            </View>
+            </StaggerItem>
           ))}
         </View>
       )}

@@ -1,10 +1,11 @@
 import { Icon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useVideoPlayer, VideoView } from 'expo-video';
 import { Star } from 'lucide-react-native';
-import { Image, View, useWindowDimensions } from 'react-native';
+import { View, useWindowDimensions } from 'react-native';
 
-const HERO_IMAGE = require('@/assets/images/hero-bg.jpg');
+const HERO_VIDEO = require('@/assets/video/hero-bg.mp4');
 const GOLD = '#b8962e';
 
 // A solid header always sits above this (see components/layout/Header.tsx) —
@@ -13,12 +14,22 @@ const GOLD = '#b8962e';
 // also carrying its own competing CTA button.
 export function Hero() {
   const { height: windowHeight } = useWindowDimensions();
+  // Looping ambient background video instead of the old static hero-bg.jpg
+  // still — same muted/looped/no-controls treatment as HotelsHero.tsx's
+  // bg-video.mp4, using expo-video (not the deprecated expo-av Video) for it.
+  const player = useVideoPlayer(HERO_VIDEO, (p) => {
+    p.loop = true;
+    p.muted = true;
+    p.play();
+  });
 
   return (
     <View style={{ height: Math.max(windowHeight * 0.6, 460) }} className="bg-ltx-green overflow-hidden">
-      <Image
-        source={HERO_IMAGE}
-        resizeMode="cover"
+      <VideoView
+        player={player}
+        contentFit="cover"
+        nativeControls={false}
+        pointerEvents="none"
         style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, width: '100%', height: '100%' }}
       />
       <LinearGradient
@@ -29,7 +40,7 @@ export function Hero() {
 
       <View className="flex-1 justify-end px-5 pb-14 pt-6">
         {/* Rating badge */}
-        <View className="absolute right-5 top-6 flex-row items-center gap-2 backdrop-blur-sm bg-black/40 rounded-lg p-2 px-2.5">
+        <View className="absolute right-3 top-3 flex-row items-center gap-2 backdrop-blur-sm bg-black/40 rounded-lg p-2 px-2.5">
           <Icon as={Star} size={14} color={GOLD} fill={GOLD} />
           <Text className="font-montserrat text-[13px] text-white/80">4.9/5 from 12K+ members</Text>
         </View>

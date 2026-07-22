@@ -50,7 +50,8 @@
           "photosPermission": "Allow WocoApp to access your photos to attach them to a support ticket.",
           "cameraPermission": "Allow WocoApp to access your camera to attach a photo to a support ticket."
         }
-      ]
+      ],
+      "expo-video"
     ],
     "experiments": {
       "typedRoutes": true

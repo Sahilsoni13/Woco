@@ -13,6 +13,7 @@ import { HotelsPagination } from '@/components/hotels/HotelsPagination';
 import { HOTELS_PER_PAGE, MOCK_HOTELS, SORT_OPTIONS, type Hotel } from '@/components/hotels/mock-data';
 import { SortSheet } from '@/components/hotels/SortSheet';
 import { Icon } from '@/components/ui/icon';
+import { StaggerItem } from '@/components/ui/stagger-item';
 import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/utils';
 import { ChevronDown, SlidersHorizontal } from 'lucide-react-native';
@@ -117,10 +118,10 @@ export function HotelsScreen() {
           />
         ) : (
           <View className="flex-row flex-wrap gap-4">
-            {paginated.map((hotel) => (
-              <View key={hotel.id} className="w-[47%]">
+            {paginated.map((hotel, index) => (
+              <StaggerItem key={hotel.id} index={index} style={{ width: '47%' }}>
                 <HotelCard hotel={hotel} />
-              </View>
+              </StaggerItem>
             ))}
           </View>
         )}
