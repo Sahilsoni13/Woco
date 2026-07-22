@@ -78,7 +78,7 @@ export function HotelDetailGallery({ hotel }: { hotel: HotelDetail }) {
             {activeIndex + 1} / {hotel.images.length}
           </Text>
 
-          <View className="absolute left-4 right-4 top-1/2 flex-row items-center justify-between">
+          <View className="absolute left-4 right-4 top-1/2.5 flex-row items-center justify-between">
             <Pressable onPress={prev} className="h-11 w-11 items-center justify-center rounded-full bg-black/50">
               <Icon as={ChevronLeft} size={20} className="text-white" />
             </Pressable>
